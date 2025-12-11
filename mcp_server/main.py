@@ -447,8 +447,8 @@ def click_key(controller_id: str, key: int) -> bool:
 
     参数：
     - controller_id: 控制器 ID，由 connect_adb_device() 返回
-    - x: 滚动的 X 坐标（像素，整数）
-    - y: 滚动的 Y 坐标（像素，整数）
+    - x: 滚动的 X 坐标（像素，建议传入 120 的整数倍以获得最佳兼容性）
+    - y: 滚动的 Y 坐标（像素，建议传入 120 的整数倍以获得最佳兼容性）
 
     返回值：
     - 成功：返回 True
