@@ -13,7 +13,7 @@ from platformdirs import user_data_dir
 
 # 应用名称，用于创建数据目录
 APP_NAME = "MaaMCP"
-APP_AUTHOR = "MaaAssistantArknights"
+APP_AUTHOR = "MaaXYZ"
 
 
 def get_data_dir() -> Path:

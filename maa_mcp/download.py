@@ -151,7 +151,7 @@ def ensure_ocr_resources(ocr_dir: Path | None = None) -> bool:
 @mcp.tool(
     name="check_and_download_ocr",
     description="""
-    检查 OCR 模型文件是否存在，如果不存在则自动从网络下载。
+    检查 OCR 模型文件是否存在，如果不存在则从网络下载。
 
     参数：
     - resource_path: 资源包根目录路径（字符串），可选
@@ -159,12 +159,12 @@ def ensure_ocr_resources(ocr_dir: Path | None = None) -> bool:
       - 如果不传，默认使用跨平台用户数据目录
 
     返回值：
-    - 成功：返回包含状态信息的字符串
+    - 成功：返回包含状态信息的字符串（资源已存在或下载成功）
     - 失败：返回错误信息字符串
 
     说明：
-    通常无需手动调用此方法，OCR 资源会在首次调用 ocr() 时自动检查和下载。
-    此方法可用于提前下载资源或排查下载问题。
+    首次使用时，当调用 ocr() 函数返回 "OCR 模型文件不存在" 的提示时，需要调用此函数下载 OCR 资源。
+    下载完成后再重新调用 ocr() 即可正常使用。后续使用无需再次下载。
 """,
 )
 def check_and_download_ocr(resource_path: str | None = None) -> str:

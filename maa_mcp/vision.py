@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import cv2
 
@@ -10,6 +10,7 @@ from maa.pipeline import JRecognitionType, JOCR
 
 from maa_mcp.core import mcp, object_registry, _saved_screenshots
 from maa_mcp.resource import get_or_create_tasker
+from maa_mcp.download import check_ocr_files_exist
 from maa_mcp.paths import get_screenshots_dir
 
 
@@ -22,15 +23,21 @@ from maa_mcp.paths import get_screenshots_dir
     - controller_id: 控制器 ID，由 connect_adb_device() 或 connect_window() 返回
 
     返回值：
-    - 成功：返回识别结果字符串，包含识别到的文字、坐标信息、置信度等结构化数据
+    - 成功：返回识别结果列表，包含识别到的文字、坐标信息、置信度等结构化数据
+    - OCR 资源不存在（首次使用）：返回字符串提示信息，需要调用 check_and_download_ocr() 下载资源后重试
     - 失败：返回 None（截图失败或 OCR 识别失败）
 
     说明：
     识别结果可用于后续的坐标定位和自动化决策，通常包含文本内容、边界框坐标、置信度评分等信息。
-    首次调用时会自动检查并下载 OCR 模型文件。
+    首次使用时，如果 OCR 模型文件不存在，会返回提示信息，此时需要调用 check_and_download_ocr() 下载资源后再重试。
+    下载完成后即可正常使用，后续调用无需再次下载。
 """,
 )
-def ocr(controller_id: str) -> Optional[list]:
+def ocr(controller_id: str) -> Optional[Union[list, str]]:
+    # 先检查 OCR 资源是否存在，不存在则返回提示信息让 AI 主动调用下载
+    if not check_ocr_files_exist():
+        return "OCR 模型文件不存在，请先调用 check_and_download_ocr() 下载 OCR 资源后重试"
+
     controller: Controller | None = object_registry.get(controller_id)
     tasker = get_or_create_tasker(controller_id)
     if not controller or not tasker:

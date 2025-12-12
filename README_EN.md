@@ -52,7 +52,7 @@ Talk is cheap, see: **[🎞️ Bilibili Video Demo](https://www.bilibili.com/vid
 ### 🎮 Device Control
 
 - `click` - Click at coordinates (supports multi-touch/mouse button selection, long press)
-  - On Windows, supports mouse button selection: left(0), right(1), middle(2)
+  - On Windows, supports mouse button selection: left, right, middle
 - `double_click` - Double click at coordinates
 - `swipe` - Swipe gesture
 - `input_text` - Input text
@@ -189,16 +189,16 @@ graph LR
 
 ## FAQ
 
-### OCR recognition fails with "Failed to load det or rec"
+### OCR recognition fails with "Failed to load det or rec" or prompts that resources do not exist
 
-OCR model files are stored in cross-platform user data directories:
-- Windows: `C:\Users\<username>\AppData\Local\MaaMCP\MaaAssistantArknights\resource\model\ocr\`
+On first use, OCR model files will be automatically downloaded. However, download failures may occur. Please check the data directory:
+- Windows: `C:\Users\<username>\AppData\Local\MaaMCP\resource\model\ocr\`
 - macOS: `~/Library/Application Support/MaaMCP/resource/model/ocr/`
 - Linux: `~/.local/share/MaaMCP/resource/model/ocr/`
 
 1. Check if model files exist in the above directory (`det.onnx`, `rec.onnx`, `keys.txt`)
 2. Check for resource download errors in `model/download.log`
-3. Manually run `python -c "from maa_mcp.download import ensure_ocr_resources; ensure_ocr_resources()"` to retry downloading
+3. Manually run `python -c "from maa_mcp.download import download_and_extract_ocr; download_and_extract_ocr()"` to retry downloading
 
 ## License
 

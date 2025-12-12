@@ -46,13 +46,13 @@ Talk is cheap, 请看: **[🎞️ Bilibili 视频演示](https://www.bilibili.co
 
 ### 👀 屏幕识别
 
-- `ocr` - 光学字符识别（高效，推荐优先使用，OCR 模型首次使用时自动下载）
+- `ocr` - 光学字符识别（高效，推荐优先使用）
 - `screencap` - 屏幕截图（按需使用，token 开销大）
 
 ### 🎮 设备控制
 
 - `click` - 点击指定坐标（支持多触点/鼠标按键选择、长按）
-  - Windows 上支持指定鼠标按键：左键(0)、右键(1)、中键(2)
+  - Windows 上支持指定鼠标按键：左键、右键、中键
 - `double_click` - 双击指定坐标
 - `swipe` - 滑动手势
 - `input_text` - 输入文本
@@ -161,7 +161,7 @@ MaaMCP 会自动：
 
 1. 扫描可用设备/窗口
 2. 建立连接
-3. 自动下载并加载 OCR 资源（首次使用时）
+3. 自动下载并加载 OCR 资源
 4. 执行识别和操作任务
 
 ## 工作流程
@@ -176,7 +176,7 @@ graph LR
 
 1. **扫描** - 使用 `find_adb_device_list` 或 `find_window_list`
 2. **连接** - 使用 `connect_adb_device` 或 `connect_window`（可连接多个设备/窗口，获得多个控制器 ID）
-3. **操作** - 通过指定不同的控制器 ID，对多个设备/窗口执行 OCR、点击、滑动等自动化操作（OCR 资源首次使用时自动下载加载）
+3. **操作** - 通过指定不同的控制器 ID，对多个设备/窗口执行 OCR、点击、滑动等自动化操作
 
 ## 注意事项
 
@@ -189,16 +189,17 @@ graph LR
 
 ## 常见问题
 
-### OCR 识别失败，报错 "Failed to load det or rec"
+### OCR 识别失败，报错 "Failed to load det or rec" 或提示资源不存在
 
-OCR 模型文件存储在跨平台用户数据目录中：
-- Windows: `C:\Users\<用户名>\AppData\Local\MaaMCP\MaaAssistantArknights\resource\model\ocr\`
+首次使用时，会自动下载 OCR 模型文件。但可能出现下载失败等情况，请检查数据目录：
+
+- Windows: `C:\Users\<用户名>\AppData\Local\MaaMCP\resource\model\ocr\`
 - macOS: `~/Library/Application Support/MaaMCP/resource/model/ocr/`
 - Linux: `~/.local/share/MaaMCP/resource/model/ocr/`
 
 1. 检查上述目录中是否有模型文件（`det.onnx`, `rec.onnx`, `keys.txt`）
 2. 检查 `model/download.log` 中是否出现资源下载异常
-3. 手动执行 `python -c "from maa_mcp.download import ensure_ocr_resources; ensure_ocr_resources()"` 再次尝试下载
+3. 手动执行 `python -c "from maa_mcp.download import download_and_extract_ocr; download_and_extract_ocr()"` 再次尝试下载
 
 ## 许可证
 

@@ -45,7 +45,8 @@ mcp = FastMCP(
 
     2. 自动化执行循环
        - 调用 ocr(controller_id) 对指定设备进行屏幕截图和 OCR 识别
-       - OCR 模型会在首次调用时自动下载和加载，无需手动操作
+       - 首次使用时，如果 OCR 模型文件不存在，ocr() 会返回提示信息，需要调用 check_and_download_ocr() 下载资源
+       - 下载完成后即可正常使用 OCR 功能，后续调用无需再次下载
        - 根据识别结果调用 click()、double_click()、swipe() 等执行相应操作
        - 所有操作通过 controller_id 指定目标设备/窗口
        - 可在多个设备间切换操作，实现协同自动化

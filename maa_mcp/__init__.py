@@ -9,5 +9,5 @@ try:
 except ImportError:
     __version__ = "0.0.0.dev0"
 
-__author__ = "MistEO"
-__email__ = "misteo@outlook.com"
+__author__ = "MaaXYZ"
+__email__ = "mistereo@hotmail.com"

@@ -5,7 +5,6 @@ from maa.resource import Resource
 from maa.tasker import Tasker
 
 from maa_mcp.core import object_registry
-from maa_mcp.download import ensure_ocr_resources
 from maa_mcp.paths import get_resource_dir
 
 
@@ -16,17 +15,13 @@ _GLOBAL_RESOURCE_KEY = "_global_resource"
 def get_or_create_resource() -> Optional[Resource]:
     """
     获取或创建全局唯一的 Resource 实例。
-    首次调用时会自动检查并下载 OCR 模型，然后加载资源。
+    注意：调用此函数前应确保 OCR 资源已存在，否则可能加载失败。
     """
     resource: Resource | None = object_registry.get(_GLOBAL_RESOURCE_KEY)
     if resource:
         return resource
 
     resource_path = get_resource_dir()
-
-    # 自动检查并下载 OCR 模型
-    if not ensure_ocr_resources():
-        return None
 
     resource = Resource()
     if not resource.post_bundle(str(resource_path)).wait().succeeded:
