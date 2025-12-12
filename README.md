@@ -11,7 +11,7 @@
 [![MaaFramework](https://img.shields.io/badge/MaaFramework-v5.2.3-green)](https://github.com/MaaXYZ/MaaFramework)
 [![Python](https://img.shields.io/badge/python-3.8+-blue)](https://www.python.org/)
 
-一个基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 的 MCP 服务器
+基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 的 MCP 服务器
 为 AI 助手提供 Android 设备和 Windows 桌面自动化能力
 
 [English](#english) | [中文](#中文)
