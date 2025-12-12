@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "maa-mcp"
+dynamic = ["version"]
+description = "MCP server based on MaaFramework, providing Android and Windows desktop automation capabilities for AI assistants"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+requires-python = ">=3.10"
+authors = [
+    { name = "MistEO", email = "misteo@outlook.com" }
+]
+keywords = [
+    "mcp",
+    "maa",
+    "maaframework",
+    "automation",
+    "android",
+    "adb",
+    "windows",
+    "ocr",
+    "ai",
+    "claude",
+    "cursor"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Testing",
+    "Topic :: System :: Hardware",
+]
+dependencies = [
+    "maafw>=5.2.4",
+    "fastmcp>=2.0.0",
+    "opencv-python>=4.0.0",
+    "platformdirs>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/MistEO/MaaMCP"
+Documentation = "https://github.com/MistEO/MaaMCP#readme"
+Repository = "https://github.com/MistEO/MaaMCP"
+Issues = "https://github.com/MistEO/MaaMCP/issues"
+
+[project.scripts]
+maa-mcp = "maa_mcp.__main__:main"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "maa_mcp/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["maa_mcp"]
+exclude = ["**/.gitignore"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "maa_mcp/**/*.py",
+    "README.md",
+    "LICENSE",
+]

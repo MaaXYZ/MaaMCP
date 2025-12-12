@@ -365,6 +365,22 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Python packaging
+dist/
+*.egg-info/
+*.egg
+.eggs/
+build/
+sdist/
+wheels/
+pip-wheel-metadata/
+*.manifest
+*.spec
+MANIFEST
+
+# Auto-generated version file
+maa_mcp/_version.py
+
 # Cake - Uncomment if you are using it
 # tools/**
 # !tools/packages.config

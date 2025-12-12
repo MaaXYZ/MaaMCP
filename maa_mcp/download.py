@@ -9,17 +9,13 @@ from urllib.request import urlopen, Request
 from urllib.error import URLError
 
 from maa_mcp.core import mcp
+from maa_mcp.paths import get_ocr_dir, get_model_dir
 
 # OCR 资源下载地址
 OCR_DOWNLOAD_URL = "https://download.maafw.xyz/MaaCommonAssets/OCR/ppocr_v5/ppocr_v5-zh_cn.zip"
 
 # OCR 模型所需文件列表
 OCR_REQUIRED_FILES = ["det.onnx", "keys.txt", "rec.onnx"]
-
-
-def get_default_ocr_path() -> Path:
-    """获取默认的 OCR 资源目录路径"""
-    return Path(__file__).parent.parent / "assets" / "resource" / "model" / "ocr"
 
 
 def _log(log_file: Path, message: str):
@@ -34,13 +30,13 @@ def check_ocr_files_exist(ocr_dir: Path | None = None) -> bool:
     检查 OCR 模型文件是否完整存在
     
     Args:
-        ocr_dir: OCR 资源目录，默认为 assets/resource/model/ocr
+        ocr_dir: OCR 资源目录，默认为跨平台用户数据目录
     
     Returns:
         如果所有必需文件都存在返回 True，否则返回 False
     """
     if ocr_dir is None:
-        ocr_dir = get_default_ocr_path()
+        ocr_dir = get_ocr_dir()
     
     return all((ocr_dir / f).exists() for f in OCR_REQUIRED_FILES)
 
@@ -50,19 +46,20 @@ def download_and_extract_ocr(ocr_dir: Path | None = None) -> bool:
     下载并解压 OCR 资源文件
     
     Args:
-        ocr_dir: OCR 资源目标目录，默认为 assets/resource/model/ocr
+        ocr_dir: OCR 资源目标目录，默认为跨平台用户数据目录
     
     Returns:
         下载解压成功返回 True，失败返回 False
     """
     if ocr_dir is None:
-        ocr_dir = get_default_ocr_path()
+        ocr_dir = get_ocr_dir()
     
     # 确保目标目录存在
     ocr_dir.mkdir(parents=True, exist_ok=True)
     
     # zip 文件和日志文件保存到 model 目录（ocr 的上级目录）
-    model_dir = ocr_dir.parent
+    model_dir = get_model_dir()
+    model_dir.mkdir(parents=True, exist_ok=True)
     zip_file = model_dir / "ppocr_v5-zh_cn.zip"
     log_file = model_dir / "download.log"
     
@@ -137,13 +134,13 @@ def ensure_ocr_resources(ocr_dir: Path | None = None) -> bool:
     确保 OCR 资源文件存在，如果不存在则自动下载
     
     Args:
-        ocr_dir: OCR 资源目录，默认为 assets/resource/model/ocr
+        ocr_dir: OCR 资源目录，默认为跨平台用户数据目录
     
     Returns:
         资源可用返回 True，否则返回 False
     """
     if ocr_dir is None:
-        ocr_dir = get_default_ocr_path()
+        ocr_dir = get_ocr_dir()
     
     if check_ocr_files_exist(ocr_dir):
         return True
@@ -159,7 +156,7 @@ def ensure_ocr_resources(ocr_dir: Path | None = None) -> bool:
     参数：
     - resource_path: 资源包根目录路径（字符串），可选
       - 典型路径示例：项目根目录下的 assets/resource
-      - 如果不传，默认使用 MaaMCP 内置的 assets/resource 路径
+      - 如果不传，默认使用跨平台用户数据目录
 
     返回值：
     - 成功：返回包含状态信息的字符串
@@ -174,7 +171,7 @@ def check_and_download_ocr(resource_path: str | None = None) -> str:
     if resource_path:
         ocr_dir = Path(resource_path) / "model" / "ocr"
     else:
-        ocr_dir = get_default_ocr_path()
+        ocr_dir = get_ocr_dir()
     
     if check_ocr_files_exist(ocr_dir):
         return f"OCR 模型文件已存在: {ocr_dir}"
@@ -182,7 +179,7 @@ def check_and_download_ocr(resource_path: str | None = None) -> str:
     if download_and_extract_ocr(ocr_dir):
         return f"OCR 模型文件下载成功: {ocr_dir}"
     else:
-        return f"OCR 模型文件下载失败，请检查网络连接或手动下载，日志文件: {ocr_dir.parent / 'download.log'}"
+        return f"OCR 模型文件下载失败，请检查网络连接或手动下载，日志文件: {get_model_dir() / 'download.log'}"
 
 
 if __name__ == "__main__":

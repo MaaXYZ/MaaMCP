@@ -6,10 +6,14 @@ from maa.toolkit import Toolkit
 
 from fastmcp import FastMCP
 
+from maa_mcp import __version__
 from maa_mcp.registry import ObjectRegistry
+from maa_mcp.paths import get_config_dir, ensure_dirs
 
 
-Toolkit.init_option(Path(__file__).parent)
+# 确保所有必要的目录存在并初始化 MaaFramework
+ensure_dirs()
+Toolkit.init_option(get_config_dir())
 
 
 # 全局对象注册表
@@ -20,7 +24,7 @@ _saved_screenshots: list[Path] = []
 
 mcp = FastMCP(
     "MaaMCP",
-    version="1.0.0",
+    version=__version__,
     instructions="""
     MaaMCP 是一个基于 MaaFramewok 框架的 Model Context Protocol 服务，
     提供 Android 设备、Windows 桌面自动化控制能力，支持通过 ADB 连接模拟器或真机，通过窗口句柄连接 Windows 桌面，
@@ -63,13 +67,13 @@ mcp = FastMCP(
     若使用 connect_window() 连接窗口后出现异常，可尝试切换截图/输入方式（需重新连接）：
 
     截图异常（画面为空、纯黑、花屏等）：
-      - 多尝试几次（3-5次）确认是否为偶发问题，不要一次失败就切换
+      - 多尝试几次确认是否为偶发问题，不要一次失败就切换
       - 若持续异常，按优先级切换截图方式重新连接：
         FramePool → PrintWindow → GDI → DXGI_DesktopDup_Window → ScreenDC
       - 最后手段：DXGI_DesktopDup（截取整个桌面，触控坐标会不正确，仅用于排查问题）
 
     键鼠操作无响应（操作后界面无变化）：
-      - 多尝试几次（3-5次）确认是否为偶发问题，不要一次失败就切换
+      - 多尝试几次确认是否为偶发问题，不要一次失败就切换
       - 若持续无响应，按优先级切换输入方式重新连接：
         鼠标：PostMessage → PostMessageWithCursorPos → Seize
         键盘：PostMessage → Seize

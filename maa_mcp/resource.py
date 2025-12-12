@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Optional
 
 from maa.controller import Controller
@@ -7,15 +6,11 @@ from maa.tasker import Tasker
 
 from maa_mcp.core import object_registry
 from maa_mcp.download import ensure_ocr_resources
+from maa_mcp.paths import get_resource_dir
 
 
 # 全局资源 ID 的固定键名
 _GLOBAL_RESOURCE_KEY = "_global_resource"
-
-
-def _get_default_resource_path() -> Path:
-    """获取默认资源目录路径"""
-    return Path(__file__).parent.parent / "assets" / "resource"
 
 
 def get_or_create_resource() -> Optional[Resource]:
@@ -27,7 +22,7 @@ def get_or_create_resource() -> Optional[Resource]:
     if resource:
         return resource
 
-    resource_path = _get_default_resource_path()
+    resource_path = get_resource_dir()
 
     # 自动检查并下载 OCR 模型
     if not ensure_ocr_resources():

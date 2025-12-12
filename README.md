@@ -9,7 +9,8 @@
 
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
 [![MaaFramework](https://img.shields.io/badge/MaaFramework-v5-green)](https://github.com/MaaXYZ/MaaFramework)
-[![Python](https://img.shields.io/badge/python-3.9+-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/)
+[![PyPI](https://img.shields.io/pypi/v/maa-mcp)](https://pypi.org/project/maa-mcp/)
 
 基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 的 MCP 服务器
 为 AI 助手提供 Android 设备和 Windows 桌面自动化能力
@@ -62,7 +63,15 @@ Talk is cheap, 请看: **[🎞️ Bilibili 视频演示](https://www.bilibili.co
 
 ## 快速开始
 
-### 安装步骤
+### 安装方式
+
+#### 方式一：通过 pip 安装（推荐）
+
+```bash
+pip install maa-mcp
+```
+
+#### 方式二：从源码安装
 
 1. **克隆仓库**
 
@@ -74,25 +83,61 @@ Talk is cheap, 请看: **[🎞️ Bilibili 视频演示](https://www.bilibili.co
 2. **安装 Python 依赖**
 
     ```bash
-    pip install -r maa_mcp/requirements.txt
+    pip install -e .
     ```
 
 ### 配置 MCP 客户端
 
 #### Cursor IDE
 
-仓库已内置 `.cursor/mcp.json`，重载 Cursor 窗口后生效
+在 Cursor 的 MCP 配置中添加（设置 → MCP → 添加）：
+
+```json
+{
+  "mcpServers": {
+    "MaaMCP": {
+      "command": "maa-mcp"
+    }
+  }
+}
+```
+
+或者如果使用 uvx：
+
+```json
+{
+  "mcpServers": {
+    "MaaMCP": {
+      "command": "uvx",
+      "args": ["maa-mcp"]
+    }
+  }
+}
+```
 
 #### Claude Code CLI
 
-仓库已内置 `.claude/settings.local.json`，重新启动 Claude Code CLI 后生效
+在 Claude Code 配置中添加：
+
+```json
+{
+  "mcpServers": {
+    "MaaMCP": {
+      "command": "maa-mcp"
+    }
+  }
+}
+```
 
 #### 其他客户端
 
-请参考上述 Cursor 或者 Claude Code 的配置设置。MaaMCP 启动方式为：
+MaaMCP 启动方式为：
 
 ```shell
-cd MaaMCP
+# 如果通过 pip 安装
+maa-mcp
+
+# 如果从源码运行
 python -m maa_mcp
 ```
 
@@ -146,9 +191,14 @@ graph LR
 
 ### OCR 识别失败，报错 "Failed to load det or rec"
 
-1. 检查 `assets/resource/model/ocr/` 中是否有模型文件
-2. 检查 `assets/resource/model/download.log` 中是否出现资源下载异常
-3. 手动执行 `python maa_mcp/download.py` 再次尝试下载
+OCR 模型文件存储在跨平台用户数据目录中：
+- Windows: `C:\Users\<用户名>\AppData\Local\MaaMCP\MaaAssistantArknights\resource\model\ocr\`
+- macOS: `~/Library/Application Support/MaaMCP/resource/model/ocr/`
+- Linux: `~/.local/share/MaaMCP/resource/model/ocr/`
+
+1. 检查上述目录中是否有模型文件（`det.onnx`, `rec.onnx`, `keys.txt`）
+2. 检查 `model/download.log` 中是否出现资源下载异常
+3. 手动执行 `python -c "from maa_mcp.download import ensure_ocr_resources; ensure_ocr_resources()"` 再次尝试下载
 
 ## 许可证
 

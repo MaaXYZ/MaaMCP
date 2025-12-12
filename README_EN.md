@@ -9,7 +9,8 @@
 
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
 [![MaaFramework](https://img.shields.io/badge/MaaFramework-v5-green)](https://github.com/MaaXYZ/MaaFramework)
-[![Python](https://img.shields.io/badge/python-3.9+-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/)
+[![PyPI](https://img.shields.io/pypi/v/maa-mcp)](https://pypi.org/project/maa-mcp/)
 
 MCP Server based on [MaaFramework](https://github.com/MaaXYZ/MaaFramework)
 Providing Android device and Windows desktop automation capabilities for AI assistants
@@ -64,6 +65,14 @@ Talk is cheap, see: **[🎞️ Bilibili Video Demo](https://www.bilibili.com/vid
 
 ### Installation
 
+#### Option 1: Install via pip (Recommended)
+
+```bash
+pip install maa-mcp
+```
+
+#### Option 2: Install from source
+
 1. **Clone the repository**
 
     ```bash
@@ -74,25 +83,61 @@ Talk is cheap, see: **[🎞️ Bilibili Video Demo](https://www.bilibili.com/vid
 2. **Install Python dependencies**
 
     ```bash
-    pip install -r maa_mcp/requirements.txt
+    pip install -e .
     ```
 
 ### Configure MCP Clients
 
 #### Cursor IDE
 
-The repo includes `.cursor/mcp.json`. Reload the Cursor window to apply.
+Add to Cursor's MCP configuration (Settings → MCP → Add):
+
+```json
+{
+  "mcpServers": {
+    "MaaMCP": {
+      "command": "maa-mcp"
+    }
+  }
+}
+```
+
+Or if using uvx:
+
+```json
+{
+  "mcpServers": {
+    "MaaMCP": {
+      "command": "uvx",
+      "args": ["maa-mcp"]
+    }
+  }
+}
+```
 
 #### Claude Code CLI
 
-The repo includes `.claude/settings.local.json`. Restart Claude Code CLI to apply.
+Add to Claude Code configuration:
+
+```json
+{
+  "mcpServers": {
+    "MaaMCP": {
+      "command": "maa-mcp"
+    }
+  }
+}
+```
 
 #### Other clients
 
-Please refer to the Cursor or Claude Code configuration above. MaaMCP can be started with:
+MaaMCP can be started with:
 
 ```shell
-cd MaaMCP
+# If installed via pip
+maa-mcp
+
+# If running from source
 python -m maa_mcp
 ```
 
@@ -146,9 +191,14 @@ graph LR
 
 ### OCR recognition fails with "Failed to load det or rec"
 
-1. Check if model files exist in `assets/resource/model/ocr/`
-2. Check if there are resource download errors in `assets/resource/model/download.log`
-3. Manually run `python maa_mcp/download.py` to retry downloading
+OCR model files are stored in cross-platform user data directories:
+- Windows: `C:\Users\<username>\AppData\Local\MaaMCP\MaaAssistantArknights\resource\model\ocr\`
+- macOS: `~/Library/Application Support/MaaMCP/resource/model/ocr/`
+- Linux: `~/.local/share/MaaMCP/resource/model/ocr/`
+
+1. Check if model files exist in the above directory (`det.onnx`, `rec.onnx`, `keys.txt`)
+2. Check for resource download errors in `model/download.log`
+3. Manually run `python -c "from maa_mcp.download import ensure_ocr_resources; ensure_ocr_resources()"` to retry downloading
 
 ## License
 
