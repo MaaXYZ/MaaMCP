@@ -1,3 +1,0 @@
-maafw>=5.2.4
-fastmcp
-opencv-python
