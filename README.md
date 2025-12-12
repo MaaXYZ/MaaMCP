@@ -63,13 +63,6 @@ Talk is cheap, 请看: **[🎞️ Bilibili 视频演示](https://www.bilibili.co
 
 ### 快速开始
 
-#### 前置要求
-
-- Python 3.8+
-- Git
-- 对于 Android 自动化：ADB 和已连接的设备/模拟器
-- 对于 Windows 自动化：无需额外配置
-
 #### 安装步骤
 
 1. **克隆仓库**
@@ -101,107 +94,37 @@ Talk is cheap, 请看: **[🎞️ Bilibili 视频演示](https://www.bilibili.co
 
 #### 配置 MCP 客户端
 
-**注意**：如果使用虚拟环境安装依赖（方式 B），请将配置中的 `"command": "python"` 替换为虚拟环境的 Python 完整路径：
-
-- Windows: `"F:/Project/Python/MaaMCP/.venv/Scripts/python.exe"`
-- macOS/Linux: `"/path/to/MaaMCP/.venv/bin/python"`
-
-##### Claude Desktop
-
-编辑 Claude Desktop 配置文件：
-
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-
-**使用全局 Python（方式 A）：**
-
-```json
-{
-  "mcpServers": {
-    "maa": {
-      "command": "python",
-      "args": ["-m", "mcp_server"],
-      "cwd": "C:/path/to/MaaMCP"
-    }
-  }
-}
-```
-
 ##### Cursor IDE
 
-在项目根目录创建或编辑 `.cursor/mcp.json`：
-
-**使用全局 Python（方式 A）：**
-
-```json
-{
-  "mcpServers": {
-    "MAA MCP": {
-      "command": "python",
-      "args": ["-m", "mcp_server"],
-      "cwd": "${workspaceFolder}"
-    }
-  }
-}
-```
+仓库已内置 `.cursor/mcp.json`，重载 Cursor 窗口后生效
 
 ##### Claude Code CLI
 
-在项目根目录创建或编辑 `.claude/settings.local.json`：
+仓库已内置 `.claude/settings.local.json`，重新启动 Claude Code CLI 后生效
 
-**使用全局 Python（方式 A）：**
+##### 其他客户端
 
-```json
-{
-  "mcpServers": {
-    "maa": {
-      "command": "python",
-      "args": ["-m", "mcp_server"],
-      "cwd": "${workspaceFolder}"
-    }
-  }
-}
-```
+请参考上述 Cursor 或者 Claude Code 的配置设置。MaaMCP 启动方式为：
 
-##### OpenAI Codex CLI
-
-使用 Codex CLI 命令添加 MCP 服务器：
-
-```bash
-# 添加 MCP 服务器（推荐方式）
-cd C:/path/to/MaaMCP
-codex mcp add maa -- python -m mcp_server
-
-# 或直接运行 main.py（需要完整路径）
-codex mcp add maa -- python C:/path/to/MaaMCP/mcp_server/main.py
-```
-
-配置将自动保存到 `~/.codex/config.toml`。配置在 CLI 和 IDE 扩展之间共享。
-
-查看和管理 MCP 服务器：
-
-```bash
-# 列出所有 MCP 服务器
-codex mcp list
-
-# 移除 MCP 服务器
-codex mcp remove maa
+```shell
+cd MaaMCP
+python -m mcp_server
 ```
 
 ### 使用示例
 
-配置完成后，在 Claude 中可以这样使用：
+配置完成后，在 Cursor 中可以这样使用：
 
 **Android 自动化示例：**
 
 ```text
-请帮我连接 Android 设备，然后识别屏幕上的文字内容
+请用 MaaMCP 工具帮我连接 Android 设备，打开美团帮我点一份外卖，我想吃中餐，一人份，20 元左右的
 ```
 
 **Windows 自动化示例：**
 
 ```text
-请连接名为 "Visual Studio Code" 的窗口，识别其中的文本
+请用 MaaMCP 工具，看看我现在这页 PPT 怎么加一个旋转特效，操作给我看下
 ```
 
 MaaMCP 会自动：
@@ -228,28 +151,6 @@ graph LR
 3. **加载** - 使用 `load_resource` 加载 OCR 模型
 4. **创建** - 使用 `create_tasker` 创建任务管理器
 5. **操作** - 使用 OCR、点击、滑动等工具执行自动化
-
-### 开发相关
-
-#### 项目结构
-
-```text
-MaaMCP/
-├── mcp_server/
-│   ├── main.py              # MCP 服务器主文件
-│   ├── registry.py          # 对象注册表模块
-│   └── screenshots/         # 临时截图目录（自动清理）
-├── assets/
-│   ├── resource/            # 资源文件
-│   │   ├── model/ocr/      # OCR 模型
-│   │   ├── image/          # 图像模板
-│   │   └── pipeline/       # 任务流水线定义
-│   └── MaaCommonAssets/    # 通用资源（git 子模块）
-├── agent/                   # 自定义识别/动作扩展
-├── configure.py             # OCR 模型配置脚本
-├── install.py               # 打包安装脚本
-└── check_resource.py        # 资源验证工具
-```
 
 ### 安全说明
 
@@ -322,13 +223,6 @@ MaaMCP is a Model Context Protocol server that exposes MaaFramework's powerful a
 
 ### Quick Start
 
-#### Prerequisites
-
-- Python 3.8+
-- Git
-- For Android automation: ADB and connected device/emulator
-- For Windows automation: No additional setup required
-
 #### Installation
 
 1. **Clone the repository**
@@ -358,107 +252,37 @@ MaaMCP is a Model Context Protocol server that exposes MaaFramework's powerful a
 
 #### Configure MCP Clients
 
-**Note**: If using virtual environment (Method B), replace `"command": "python"` with the full Python path:
-
-- Windows: `"C:/path/to/MaaMCP/.venv/Scripts/python.exe"`
-- macOS/Linux: `"/path/to/MaaMCP/.venv/bin/python"`
-
-##### Claude Desktop
-
-Edit Claude Desktop configuration:
-
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-
-**Using global Python (Method A):**
-
-```json
-{
-  "mcpServers": {
-    "maa": {
-      "command": "python",
-      "args": ["-m", "mcp_server"],
-      "cwd": "C:/path/to/MaaMCP"
-    }
-  }
-}
-```
-
 ##### Cursor IDE
 
-Create or edit `.cursor/mcp.json` in project root:
-
-**Using global Python (Method A):**
-
-```json
-{
-  "mcpServers": {
-    "MAA MCP": {
-      "command": "python",
-      "args": ["-m", "mcp_server"],
-      "cwd": "${workspaceFolder}"
-    }
-  }
-}
-```
+The repo includes `.cursor/mcp.json`. Reload the Cursor window to apply.
 
 ##### Claude Code CLI
 
-Create or edit `.claude/settings.local.json` in project root:
+The repo includes `.claude/settings.local.json`. Restart Claude Code CLI to apply.
 
-**Using global Python (Method A):**
+##### Other clients
 
-```json
-{
-  "mcpServers": {
-    "maa": {
-      "command": "python",
-      "args": ["-m", "mcp_server"],
-      "cwd": "${workspaceFolder}"
-    }
-  }
-}
-```
+You can follow the Cursor/Claude Code config approach above. MaaMCP can be started with:
 
-##### OpenAI Codex CLI
-
-Add the MCP server using Codex CLI commands:
-
-```bash
-# Add MCP server (recommended)
-cd C:/path/to/MaaMCP
-codex mcp add maa -- python -m mcp_server
-
-# Or run main.py directly (requires full path)
-codex mcp add maa -- python C:/path/to/MaaMCP/mcp_server/main.py
-```
-
-The configuration will be automatically saved to `~/.codex/config.toml`. Configuration is shared between CLI and IDE extension.
-
-View and manage MCP servers:
-
-```bash
-# List all MCP servers
-codex mcp list
-
-# Remove MCP server
-codex mcp remove maa
+```shell
+cd MaaMCP
+python -m mcp_server
 ```
 
 ### Usage Examples
 
-After configuration, you can use it in Claude:
+After configuration, you can use it in Cursor:
 
 **Android Automation Example:**
 
 ```text
-Please connect to my Android device and recognize the text on screen
+Please use the MaaMCP tools to connect to my Android device, open Meituan, and help me order a Chinese meal (one portion) around 20 RMB.
 ```
 
 **Windows Automation Example:**
 
 ```text
-Please connect to the "Visual Studio Code" window and recognize its text
+Please use the MaaMCP tools to show me how to add a rotation animation effect to the current PPT slide, and demonstrate the steps.
 ```
 
 MaaMCP will automatically:
@@ -485,28 +309,6 @@ graph LR
 3. **Load** - Use `load_resource` to load OCR models
 4. **Create** - Use `create_tasker` to create task manager
 5. **Operate** - Use OCR, click, swipe, etc. for automation
-
-### Development
-
-#### Project Structure
-
-```text
-MaaMCP/
-├── mcp_server/
-│   ├── main.py              # MCP server main file
-│   ├── registry.py          # Object registry module
-│   └── screenshots/         # Temporary screenshots (auto-cleanup)
-├── assets/
-│   ├── resource/            # Resource files
-│   │   ├── model/ocr/      # OCR models
-│   │   ├── image/          # Image templates
-│   │   └── pipeline/       # Task pipeline definitions
-│   └── MaaCommonAssets/    # Common assets (git submodule)
-├── agent/                   # Custom recognition/action extensions
-├── configure.py             # OCR model configuration script
-├── install.py               # Package building script
-└── check_resource.py        # Resource validation tool
-```
 
 ### Security Notes
 

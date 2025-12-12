@@ -5,8 +5,7 @@
             "args": [
                 "-m",
                 "mcp_server"
-            ],
-            "cwd": "${workspaceFolder}"
+            ]
         }
     }
 }

@@ -24,10 +24,10 @@ object_registry = ObjectRegistry()
 _saved_screenshots: list[Path] = []
 
 mcp = FastMCP(
-    "MAA MCP",
+    "MaaMCP",
     version="1.0.0",
     instructions="""
-    MAA MCP 是一个基于 MaaFramewok 框架的 Model Context Protocol 服务，
+    MaaMCP 是一个基于 MaaFramewok 框架的 Model Context Protocol 服务，
     提供 Android 设备、Windows 桌面自动化控制能力，支持通过 ADB 连接模拟器或真机，通过窗口句柄连接Windows桌面
     实现屏幕截图、光学字符识别（OCR）、坐标点击、手势滑动、按键点击、输入文本等自动化操作。
 
