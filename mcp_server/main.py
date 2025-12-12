@@ -53,7 +53,9 @@ mcp = FastMCP(
 
     5. 自动化执行循环
        - 调用 ocr(tasker_id) 进行屏幕截图并执行 OCR 识别
-       - 根据识别结果调用 click() 或 swipe() 执行相应操作
+       - 根据识别结果调用 click()、double_click() 或 swipe() 执行相应操作
+       - click/double_click 支持 button 参数选择触点/按键，duration 参数实现长按
+       - click_key 支持 duration 参数实现按键长按
        - 重复执行步骤 5，直至任务完成
 
     屏幕识别策略（重要）：

@@ -55,10 +55,11 @@ Talk is cheap, 请看: **[🎞️ Bilibili 视频演示](https://www.bilibili.co
 
 #### 🎮 设备控制
 
-- `click` - 点击指定坐标
+- `click` - 点击指定坐标（支持多触点/鼠标按键选择、长按）
+- `double_click` - 双击指定坐标
 - `swipe` - 滑动手势
 - `input_text` - 输入文本
-- `click_key` - 按键操作
+- `click_key` - 按键操作（支持长按）
 - `scroll` - 鼠标滚轮（仅 Windows）
 
 ### 快速开始
@@ -215,10 +216,11 @@ MaaMCP is a Model Context Protocol server that exposes MaaFramework's powerful a
 
 #### 🎮 Device Control
 
-- `click` - Click at coordinates
+- `click` - Click at coordinates (supports multi-touch/mouse button selection, long press)
+- `double_click` - Double click at coordinates
 - `swipe` - Swipe gesture
 - `input_text` - Input text
-- `click_key` - Key press
+- `click_key` - Key press (supports long press)
 - `scroll` - Mouse wheel (Windows only)
 
 ### Quick Start
