@@ -5,50 +5,54 @@ from maa.controller import Controller
 from maa.resource import Resource
 from maa.tasker import Tasker
 
-from maa_mcp.core import mcp, object_registry
+from maa_mcp.core import object_registry
+from maa_mcp.download import ensure_ocr_resources
 
 
-@mcp.tool(
-    name="load_resource",
-    description="""
-    加载 MAA 资源包，包含 OCR 模型、图像模板等自动化所需资源。
+# 全局资源 ID 的固定键名
+_GLOBAL_RESOURCE_KEY = "_global_resource"
 
-    参数：
-    - resource_path: 资源包根目录路径（字符串）
-      - 路径应指向包含 resource/model/*.onnx 的目录层级
-      - 典型路径示例：项目根目录下的 assets/resource
-      - 传入路径为 resource 这一级目录，而非其子目录
 
-    返回值：
-    - 成功：返回资源 ID（字符串），用于后续 OCR 等操作
-    - 失败：返回 None（路径不存在或资源加载失败）
+def _get_default_resource_path() -> Path:
+    """获取默认资源目录路径"""
+    return Path(__file__).parent.parent / "assets" / "resource"
 
-    前置条件（重要）：
-    调用此方法前，必须先调用 check_and_download_ocr() 确保 OCR 模型文件存在。
-    如果 OCR 模型不存在，此方法会加载失败。
-""",
-)
-def load_resource(resource_path: str) -> Optional[str]:
-    if not Path(resource_path).exists():
+
+def get_or_create_resource() -> Optional[Resource]:
+    """
+    获取或创建全局唯一的 Resource 实例。
+    首次调用时会自动检查并下载 OCR 模型，然后加载资源。
+    """
+    resource: Resource | None = object_registry.get(_GLOBAL_RESOURCE_KEY)
+    if resource:
+        return resource
+
+    resource_path = _get_default_resource_path()
+
+    # 自动检查并下载 OCR 模型
+    if not ensure_ocr_resources():
         return None
+
     resource = Resource()
-    if not resource.post_bundle(resource_path).wait().succeeded:
+    if not resource.post_bundle(str(resource_path)).wait().succeeded:
         return None
-    return object_registry.register(resource)
+
+    object_registry.register_by_name(_GLOBAL_RESOURCE_KEY, resource)
+    return resource
 
 
-def get_or_create_tasker(controller_id: str, resource_id: str) -> Optional[Tasker]:
+def get_or_create_tasker(controller_id: str) -> Optional[Tasker]:
     """
-    根据 controller_id 和 resource_id 获取或创建 tasker 实例。
-    tasker 会被缓存，相同组合不会重复创建。
+    根据 controller_id 获取或创建 tasker 实例。
+    会自动加载全局资源。tasker 会被缓存，相同 controller 不会重复创建。
     """
-    tasker_cache_key = f"_tasker_{controller_id}_{resource_id}"
+    tasker_cache_key = f"_tasker_{controller_id}"
     tasker: Tasker | None = object_registry.get(tasker_cache_key)
     if tasker:
         return tasker
 
     controller: Controller | None = object_registry.get(controller_id)
-    resource: Resource | None = object_registry.get(resource_id)
+    resource = get_or_create_resource()
     if not controller or not resource:
         return None
 
@@ -59,4 +63,3 @@ def get_or_create_tasker(controller_id: str, resource_id: str) -> Optional[Taske
 
     object_registry.register_by_name(tasker_cache_key, tasker)
     return tasker
-

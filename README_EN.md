@@ -43,13 +43,9 @@ Talk is cheap, see: **[🎞️ Bilibili Video Demo](https://www.bilibili.com/vid
 - `connect_adb_device` - Connect to Android device
 - `connect_window` - Connect to Windows window
 
-### 📦 Resource Management
-
-- `load_resource` - Load OCR models and image resources
-
 ### 👀 Screen Recognition
 
-- `ocr` - Optical Character Recognition (efficient, recommended for priority use)
+- `ocr` - Optical Character Recognition (efficient, recommended for priority use, OCR model auto-downloads on first use)
 - `screencap` - Screenshot capture (use as needed, high token cost)
 
 ### 🎮 Device Control
@@ -120,7 +116,7 @@ MaaMCP will automatically:
 
 1. Scan available devices/windows
 2. Establish connection
-3. Load necessary resources
+3. Auto-download and load OCR resources (on first use)
 4. Execute recognition and operation tasks
 
 ## Workflow
@@ -130,14 +126,12 @@ MaaMCP follows a streamlined operational workflow with multi-device/window coord
 ```mermaid
 graph LR
     A[Scan Devices] --> B[Establish Connection]
-    B --> C[Load Resources]
-    C --> D[Execute Automation]
+    B --> C[Execute Automation]
 ```
 
 1. **Scan** - Use `find_adb_device_list` or `find_window_list`
 2. **Connect** - Use `connect_adb_device` or `connect_window` (can connect multiple devices/windows, each gets a unique controller ID)
-3. **Load** - Use `load_resource` to load OCR models (only needs to be loaded once)
-4. **Operate** - Execute OCR, click, swipe, etc. on multiple devices/windows by specifying different controller IDs
+3. **Operate** - Execute OCR, click, swipe, etc. on multiple devices/windows by specifying different controller IDs (OCR resources auto-download on first use)
 
 ## Notes
 
@@ -152,8 +146,8 @@ graph LR
 
 ### OCR recognition fails with "Failed to load det or rec"
 
-1. Check if model files exist in `assets/model/ocr/`
-2. Check if there are resource download errors in `assets/model/download.log`
+1. Check if model files exist in `assets/resource/model/ocr/`
+2. Check if there are resource download errors in `assets/resource/model/download.log`
 3. Manually run `python maa_mcp/download.py` to retry downloading
 
 ## License

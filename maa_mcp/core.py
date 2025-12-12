@@ -39,14 +39,9 @@ mcp = FastMCP(
        - 使用 connect_adb_device(device_name) 或 connect_window(window_name) 建立连接
        - 可连接多个设备/窗口，每个连接返回独立的控制器 ID
 
-    2. 资源初始化
-       - 先调用 check_and_download_ocr() 检查 OCR 模型是否存在，不存在会自动下载
-       - 再调用 load_resource(resource_path) 加载资源包
-       - 资源路径应指向包含 resource/model/*.onnx 的目录（通常为项目 assets/resource 目录）
-       - 资源只需加载一次，可供多个设备共享使用
-
-    3. 自动化执行循环
-       - 调用 ocr(controller_id, resource_id) 对指定设备进行屏幕截图和 OCR 识别
+    2. 自动化执行循环
+       - 调用 ocr(controller_id) 对指定设备进行屏幕截图和 OCR 识别
+       - OCR 模型会在首次调用时自动下载和加载，无需手动操作
        - 根据识别结果调用 click()、double_click()、swipe() 等执行相应操作
        - 所有操作通过 controller_id 指定目标设备/窗口
        - 可在多个设备间切换操作，实现协同自动化
@@ -59,10 +54,10 @@ mcp = FastMCP(
     - 图片识别会消耗大量 token，应尽量避免频繁调用
 
     注意事项：
-    - 所有 ID 均为字符串类型，由系统自动生成并管理
+    - controller_id 为字符串类型，由系统自动生成并管理
     - 操作失败时函数返回 None 或 False，需进行错误处理
     - 多设备场景下必须等待用户明确选择，不得自动决策
-    - 请妥善保存 controller_id 和 resource_id，以便在多设备间切换操作
+    - 请妥善保存 controller_id，以便在多设备间切换操作
 
     Windows 窗口控制故障排除：
     若使用 connect_window() 连接窗口后出现异常，可尝试切换截图/输入方式（需重新连接）：

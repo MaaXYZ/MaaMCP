@@ -43,13 +43,9 @@ Talk is cheap, 请看: **[🎞️ Bilibili 视频演示](https://www.bilibili.co
 - `connect_adb_device` - 连接到 Android 设备
 - `connect_window` - 连接到 Windows 窗口
 
-### 📦 资源管理
-
-- `load_resource` - 加载 OCR 模型和图像资源
-
 ### 👀 屏幕识别
 
-- `ocr` - 光学字符识别（高效，推荐优先使用）
+- `ocr` - 光学字符识别（高效，推荐优先使用，OCR 模型首次使用时自动下载）
 - `screencap` - 屏幕截图（按需使用，token 开销大）
 
 ### 🎮 设备控制
@@ -120,7 +116,7 @@ MaaMCP 会自动：
 
 1. 扫描可用设备/窗口
 2. 建立连接
-3. 加载必要的资源
+3. 自动下载并加载 OCR 资源（首次使用时）
 4. 执行识别和操作任务
 
 ## 工作流程
@@ -130,14 +126,12 @@ MaaMCP 遵循简洁的操作流程，支持多设备/多窗口协同工作：
 ```mermaid
 graph LR
     A[扫描设备] --> B[建立连接]
-    B --> C[加载资源]
-    C --> D[执行自动化操作]
+    B --> C[执行自动化操作]
 ```
 
 1. **扫描** - 使用 `find_adb_device_list` 或 `find_window_list`
 2. **连接** - 使用 `connect_adb_device` 或 `connect_window`（可连接多个设备/窗口，获得多个控制器 ID）
-3. **加载** - 使用 `load_resource` 加载 OCR 模型（只需加载一次）
-4. **操作** - 通过指定不同的控制器 ID，对多个设备/窗口执行 OCR、点击、滑动等自动化操作
+3. **操作** - 通过指定不同的控制器 ID，对多个设备/窗口执行 OCR、点击、滑动等自动化操作（OCR 资源首次使用时自动下载加载）
 
 ## 注意事项
 
@@ -152,8 +146,8 @@ graph LR
 
 ### OCR 识别失败，报错 "Failed to load det or rec"
 
-1. 检查 `assets/model/ocr/` 中是否有模型文件
-2. 检查 `assets/model/download.log` 中是否出现资源下载异常
+1. 检查 `assets/resource/model/ocr/` 中是否有模型文件
+2. 检查 `assets/resource/model/download.log` 中是否出现资源下载异常
 3. 手动执行 `python maa_mcp/download.py` 再次尝试下载
 
 ## 许可证

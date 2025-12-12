@@ -19,7 +19,6 @@ from maa_mcp.resource import get_or_create_tasker
 
     参数：
     - controller_id: 控制器 ID，由 connect_adb_device() 或 connect_window() 返回
-    - resource_id: 资源 ID，由 load_resource() 返回
 
     返回值：
     - 成功：返回识别结果字符串，包含识别到的文字、坐标信息、置信度等结构化数据
@@ -27,11 +26,12 @@ from maa_mcp.resource import get_or_create_tasker
 
     说明：
     识别结果可用于后续的坐标定位和自动化决策，通常包含文本内容、边界框坐标、置信度评分等信息。
+    首次调用时会自动检查并下载 OCR 模型文件。
 """,
 )
-def ocr(controller_id: str, resource_id: str) -> Optional[list]:
+def ocr(controller_id: str) -> Optional[list]:
     controller: Controller | None = object_registry.get(controller_id)
-    tasker = get_or_create_tasker(controller_id, resource_id)
+    tasker = get_or_create_tasker(controller_id)
     if not controller or not tasker:
         return None
 
@@ -72,4 +72,3 @@ def screencap(controller_id: str) -> Optional[str]:
         return None
     _saved_screenshots.append(filepath)
     return str(filepath.absolute())
-

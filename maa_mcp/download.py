@@ -165,11 +165,9 @@ def ensure_ocr_resources(ocr_dir: Path | None = None) -> bool:
     - 成功：返回包含状态信息的字符串
     - 失败：返回错误信息字符串
 
-    使用流程（重要）：
-    在调用 load_resource() 之前，必须先调用此方法确保 OCR 模型文件存在。
-    典型流程：
-    1. 调用 check_and_download_ocr() 检查并下载 OCR 资源
-    2. 调用 load_resource() 加载资源包
+    说明：
+    通常无需手动调用此方法，OCR 资源会在首次调用 ocr() 时自动检查和下载。
+    此方法可用于提前下载资源或排查下载问题。
 """,
 )
 def check_and_download_ocr(resource_path: str | None = None) -> str:
