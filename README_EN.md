@@ -67,8 +67,8 @@ Talk is cheap, see: **[🎞️ Bilibili Video Demo](https://www.bilibili.com/vid
 ### 📝 Pipeline Generation & Execution
 
 - `get_pipeline_protocol` - Get Pipeline protocol documentation
-- `save_pipeline` - Save Pipeline JSON to file (supports create and update)
-- `load_pipeline` - Load existing Pipeline file
+- `save_pipeline` - Save Pipeline JSON to file (supports creating and updating)
+- `load_pipeline` - Load an existing Pipeline file
 - `run_pipeline` - Run Pipeline and return execution results
 
 ## Quick Start
@@ -182,8 +182,8 @@ graph LR
     J --> F
 ```
 
-1. **Execute Operations** - AI performs OCR, click, swipe, and other automation operations normally
-2. **Get Documentation** - Call `get_pipeline_protocol` to get Pipeline protocol specification
+1. **Execute Operations** - AI performs OCR, clicks, swipes, and other automation operations normally
+2. **Get Documentation** - Call `get_pipeline_protocol` to get the Pipeline protocol specification
 3. **Intelligent Generation** - AI converts **valid operations** into Pipeline JSON based on the documentation
 4. **Save File** - Call `save_pipeline` to save the generated Pipeline
 5. **Run Validation** - Call `run_pipeline` to verify the Pipeline works correctly
@@ -210,7 +210,7 @@ After Pipeline generation, AI automatically validates and optimizes:
    - Adjust roi recognition regions
    - Add wait time (post_delay)
    - Add intermediate state detection nodes
-4. **Re-validate** - Run again after modifications until stable success
+4. **Re-validate** - Run again after modifications until it consistently succeeds
 
 If the Pipeline logic itself needs adjustment, AI can re-execute automation operations and combine old and new experiences to generate a more robust Pipeline.
 
