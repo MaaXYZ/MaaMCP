@@ -262,9 +262,9 @@ Pipeline 生成后，AI 会自动进行验证和优化：
 
 首次使用时，会自动下载 OCR 模型文件。但可能出现下载失败等情况，请检查数据目录：
 
-- Windows: `C:\Users\<用户名>\AppData\Local\MaaMCP\resource\model\ocr\`
-- macOS: `~/Library/Application Support/MaaMCP/resource/model/ocr/`
-- Linux: `~/.local/share/MaaMCP/resource/model/ocr/`
+- Windows: `C:\Users\<用户名>\AppData\Local\MaaXYZ\MaaMCP\resource\model\ocr\`
+- macOS: `~/Library/Application Support/MaaXYZ/MaaMCP/resource/model/ocr/`
+- Linux: `~/.local/share/MaaXYZ/MaaMCP/resource/model/ocr/`
 
 1. 检查上述目录中是否有模型文件（`det.onnx`, `rec.onnx`, `keys.txt`）
 2. 检查 `model/download.log` 中是否出现资源下载异常
@@ -274,9 +274,9 @@ Pipeline 生成后，AI 会自动进行验证和优化：
 
 提交问题时，请提供日志文件，日志文件路径如下：
 
-- Windows: `C:\Users\<用户名>\AppData\Local\MaaMCP\debug\maa.log`
-- macOS: `~/Library/Application Support/MaaMCP/debug/maa.log`
-- Linux: `~/.local/share/MaaMCP/debug/maa.log`
+- Windows: `C:\Users\<用户名>\AppData\Local\MaaXYZ\MaaMCP\debug\maa.log`
+- macOS: `~/Library/Application Support/MaaXYZ/MaaMCP/debug/maa.log`
+- Linux: `~/.local/share/MaaXYZ/MaaMCP/debug/maa.log`
 
 ## 许可证
 
